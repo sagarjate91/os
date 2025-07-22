@@ -6,6 +6,7 @@ import com.order.os.dto.OrderRequest;
 import com.order.os.dto.OrderResponse;
 import com.order.os.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Value("${message}")
+    private String message;
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
@@ -27,5 +31,10 @@ public class OrderController {
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
         OrderDto orderDto = orderService.getOrderById(orderId);
         return ResponseEntity.ok(orderDto);
+    }
+
+    @GetMapping("/message")
+    public ResponseEntity<String> getMessage() {
+        return ResponseEntity.ok(message);
     }
 }
